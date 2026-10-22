@@ -1,4 +1,4 @@
-
+import { sql } from "./db";
 export type Udhetim = {
   id: string;
   shoferi: string;
@@ -41,4 +41,19 @@ export const udhetimet: Udhetim[] = [
 
 export function gjejUdhetimin(id: string) {
   return udhetimet.find((udhetim) => udhetim.id === id);
+}
+export async function merrUdhetimetNgaDB(): Promise<Udhetim[]> {
+  const rezultatet = await sql`
+    SELECT * FROM udhetimet ORDER BY id
+  `;
+
+  return rezultatet.map((r) => ({
+    id: String(r.id),
+    shoferi: String(r.shoferi),
+    nisja: String(r.nisja),
+    destinacioni: String(r.destinacioni),
+    ora: String(r.ora),
+    vendtakimi: String(r.vendtakimi),
+    vende: Number(r.vendet_lira),
+  }));
 }

@@ -1,7 +1,7 @@
 
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { gjejUdhetimin } from "@/lib/udhetimet";
+import { merrUdhetimetNgaDB } from "@/lib/udhetimet";
 
 export default async function Detajet({
   params,
@@ -9,7 +9,9 @@ export default async function Detajet({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const udhetimi = gjejUdhetimin(id);
+
+  const udhetimet = await merrUdhetimetNgaDB();
+  const udhetimi = udhetimet.find((u) => u.id === id);
 
   if (!udhetimi) {
     notFound();
@@ -38,7 +40,7 @@ export default async function Detajet({
 
         {udhetimi.vende > 0 ? (
           <Link
-           href={`/udhetimi/${udhetimi.id}/kerkesa`}
+            href={`/udhetimi/${udhetimi.id}/kerkesa`}
             className="mt-6 inline-block rounded-lg bg-blue-600 px-5 py-3 text-white"
           >
             Kërko vend
