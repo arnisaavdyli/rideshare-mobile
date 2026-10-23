@@ -2,6 +2,8 @@
 import { merrUdhetimetNgaDB } from "@/lib/udhetimet";
 import { KartaUdhetimi } from "@/components/KartaUdhetimi";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   let udhetimet: Awaited<
     ReturnType<typeof merrUdhetimetNgaDB>
