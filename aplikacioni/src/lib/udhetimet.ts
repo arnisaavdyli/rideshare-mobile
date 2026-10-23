@@ -44,7 +44,7 @@ export function gjejUdhetimin(id: string) {
 }
 export async function merrUdhetimetNgaDB(): Promise<Udhetim[]> {
   const rezultatet = await sql`
-    SELECT * FROM udhetimet ORDER BY id
+   SELECT * FROM udhetimet ORDER BY id
   `;
 
   return rezultatet.map((r) => ({
