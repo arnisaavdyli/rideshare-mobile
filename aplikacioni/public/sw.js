@@ -1,11 +1,15 @@
 
 const CACHE = "rideshare-data-v1";
-const STATIC_CACHE = "rideshare-static-v1";
+const STATIC_CACHE = "rideshare-static-v2";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(STATIC_CACHE).then((cache) =>
-      cache.addAll(["/offline.html", "/icon-192.png", "/icon-512.png"])
+      cache.addAll([
+        "/offline.html",
+        "/icons/icon-192.png",
+        "/icons/icon-512.png",
+      ])
     )
   );
   self.skipWaiting();
