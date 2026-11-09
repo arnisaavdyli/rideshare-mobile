@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RideShare - Offline</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+      padding: 24px;
+      color: #1e293b;
+    }
+    main {
+      max-width: 600px;
+      margin: 40px auto;
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+    }
+    .udhetim {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>RideShare 🚗</h1>
+    <h2>Je offline</h2>
+    <p>Nuk ke internet. Këto janë udhëtimet e ruajtura:</p>
+
+    <div id="lista">Duke kontrolluar të dhënat...</div>
+    <p id="koha"></p>
+    <p>Rezervimet nuk mund të bëhen pa internet.</p>
+  </main>
+
+  <script>
+    async function shfaqUdhetimet() {
+      const lista = document.getElementById("lista");
+      try {
+        const cache = await caches.open("rideshare-data-v1");
+        const response = await cache.match("/api/udhetimet");
+
+        if (!response) {
+          lista.textContent = "Nuk ka udhëtime të ruajtura.";
+          return;
+        }
+
+        const udhetimet = await response.json();
+
+        lista.innerHTML = "";
+        udhetimet.forEach((u) => {
+          const div = document.createElement("div");
+          div.className = "udhetim";
+          div.textContent =
+            u.nisja + " → " + u.destinacioni + " | " + u.ora;
+          lista.appendChild(div);
+        });
+
+        document.getElementById("koha").textContent =
+          "Të dhënat janë nga ruajtja e fundit.";
+      } catch {
+        lista.textContent = "Nuk u arrit të lexohen të dhënat.";
+      }
+    }
+
+    shfaqUdhetimet();
+  </script>
+</body>
+</html>
